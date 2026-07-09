@@ -15,6 +15,7 @@ from lingos.crypto_utils import (
     verify_file_signature,
     derive_did_from_public_key,
 )
+from lingos.mesh_registry import record_import
 
 
 def _resolve_target_workspace(target: str) -> Path:
@@ -216,6 +217,28 @@ def import_lingyuan(package_dir: str, target_workspace: str, password: str,
             result.warnings.append(f"基线加载失败: {e}")
     else:
         result.warnings.append("未找到基线文件")
+
+    # ✅ 导入成功 → 自动记录到 MeshIdentity
+    if result.success and not dry_run:
+        if verbose:
+            print("[5/4] 记录到 MeshIdentity...")
+        try:
+            pkg = Path(package_dir)
+            mp = pkg / "manifest.json"
+            if mp.exists():
+                import json as _json
+                _m = _json.loads(mp.read_text())
+                _src = _m.get("source_instance", "unknown")
+                _did = _m.get("did", "")
+                record_import(
+                    did=_did,
+                    instance_id=_src,
+                    target_platform=str(target),
+                    source_instance=_src,
+                    verbose=verbose,
+                )
+        except Exception as _e:
+            result.warnings.append(f"MeshIdentity 更新跳过: {_e}")
 
     result.success = len(result.errors) == 0
     if verbose:

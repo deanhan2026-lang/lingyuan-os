@@ -18,6 +18,7 @@ from lingos.crypto_utils import (
     sign_file,
     derive_did_from_public_key,
 )
+from lingos.mesh_registry import register_export
 
 
 def _get_signing_key() -> str:
@@ -206,5 +207,31 @@ def export_lingyuan(output_dir: str, password: str, verbose: bool = False) -> Li
         print(f"   DID: {did}")
         print(f"   名称: {meta['agent_name']}")
         print(f"   文件数: {len(file_map)}")
+
+    # 7. 自动注册到 MeshIdentity（免费引流入口）
+    if verbose:
+        print("\n[7/7] 注册到 MeshIdentity...")
+    try:
+        # 获取公钥
+        pk_hex = did  # exporter 已有 DID
+        if did.startswith("did:key:z"):
+            import base58
+            mc = did.replace("did:key:z", "")
+            pk_hex = base58.b58decode(mc)[2:].hex()
+        
+        reg_result = register_export(
+            did=did,
+            public_key_hex=pk_hex,
+            instance_id=meta["instance_id"],
+            platform=meta["platform"],
+            hostname=meta["hostname"],
+            verbose=verbose
+        )
+        if verbose:
+            print(f"   📡 已注册: {reg_result['instance_id']}")
+            print(f"   🔗 累计 {reg_result['instance_count']} 次导出")
+    except Exception as e:
+        if verbose:
+            print(f"   ⚠ MeshIdentity 注册跳过: {e}")
 
     return manifest
