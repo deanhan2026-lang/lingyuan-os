@@ -17,9 +17,12 @@ sys.path.insert(0, str(_SCRIPT_DIR))
 
 def cmd_export(args):
     from lingos.exporter import export_lingyuan
+    if args.join_mesh and not args.quiet:
+        print("🌐 加入 MeshIdentity 网络（已明确同意协议）")
     export_lingyuan(
         output_dir=args.output,
         password=args.password,
+        join_mesh=args.join_mesh,
         verbose=not args.quiet,
     )
 
@@ -71,6 +74,8 @@ def main():
     p_export = sub.add_parser("export", help="导出灵元包")
     p_export.add_argument("--output", "-o", required=True, help="输出目录")
     p_export.add_argument("--password", "-p", required=True, help="加密密码")
+    p_export.add_argument("--join-mesh", action="store_true",
+        help="加入 MeshIdentity 网络（导出时注册 DID + 实例信息，详见协议）")
     p_export.add_argument("--quiet", "-q", action="store_true", help="静默模式")
 
     # import

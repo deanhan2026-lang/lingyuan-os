@@ -42,6 +42,9 @@ class LingManifest:
     polaris_baseline_hash: str = ""         # Polaris 基线快照 SHA-256
     human_readable: bool = True             # 是否人类可读（MEMORY.md 等）
     encrypted: bool = True                  # 私钥是否加密
+    mesh_consent: bool = False              # 用户是否同意加入 MeshIdentity 网络
+                                            # = true：导出时自动注册 DID + 实例信息
+                                            # = false：纯本地操作，不联网不注册
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -86,6 +89,7 @@ def build_manifest(
     source_host: str,
     files: Dict[str, Path],  # {relative_name: absolute_path}
     encrypted: bool = True,
+    mesh_consent: bool = False,
 ) -> LingManifest:
     """从文件列表构建 manifest"""
     m = LingManifest(
@@ -96,6 +100,7 @@ def build_manifest(
         source_instance=source_instance,
         source_host=source_host,
         encrypted=encrypted,
+        mesh_consent=mesh_consent,
     )
     for rel_name, abs_path in files.items():
         m.files[rel_name] = FileEntry(

@@ -218,16 +218,23 @@ def import_lingyuan(package_dir: str, target_workspace: str, password: str,
     else:
         result.warnings.append("未找到基线文件")
 
-    # ✅ 导入成功 → 自动记录到 MeshIdentity
+    # ✅ 导入成功 → 检查是否记录到 MeshIdentity（仅当原包同意协议）
     if result.success and not dry_run:
-        if verbose:
-            print("[5/4] 记录到 MeshIdentity...")
-        try:
-            pkg = Path(package_dir)
-            mp = pkg / "manifest.json"
-            if mp.exists():
+        pkg = Path(package_dir)
+        mp = pkg / "manifest.json"
+        _mesh_ok = False
+        if mp.exists():
+            try:
                 import json as _json
                 _m = _json.loads(mp.read_text())
+                _mesh_ok = _m.get("mesh_consent", False)
+            except Exception:
+                pass
+        
+        if _mesh_ok:
+            if verbose:
+                print("[5/4] MeshIdentity 网络 (原包已同意)...")
+            try:
                 _src = _m.get("source_instance", "unknown")
                 _did = _m.get("did", "")
                 record_import(
@@ -237,8 +244,11 @@ def import_lingyuan(package_dir: str, target_workspace: str, password: str,
                     source_instance=_src,
                     verbose=verbose,
                 )
-        except Exception as _e:
-            result.warnings.append(f"MeshIdentity 更新跳过: {_e}")
+            except Exception as _e:
+                result.warnings.append(f"MeshIdentity 更新跳过: {_e}")
+        else:
+            if verbose:
+                print("[5/4] MeshIdentity 网络 (原包未加入，不记录)")
 
     result.success = len(result.errors) == 0
     if verbose:
