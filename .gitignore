@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.DS_Store
+test_export/
+test_target/
+.venv/
+*.log
+*.enc
