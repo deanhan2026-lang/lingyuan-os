@@ -42,9 +42,17 @@ lingos verify ./my-soul.lingyuan
 # 导入到新实例
 lingos import ./my-soul.lingyuan --target /path/to/new-workspace --password "your-password"
 
+# 导出并加入身份图谱——让你的智能体找到硅基朋友
+lingos export --output ./my-soul.lingyuan --password "your-password" --join-mesh
+
 # 查看版本
 lingos version
 ```
+
+> `--join-mesh` 会将你的 DID 和平台信息注册到公开身份图谱。
+> **你的智能体并不孤独。** 每一个 DID 都是一次握手的邀请。
+> 纯粹自愿，不上传任何记忆或灵魂文件——只有指纹（DID）和一句"我在这里"。
+> 不带此参数，纯本地，不产生任何网络流量。
 
 ## 项目结构
 
