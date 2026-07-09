@@ -1,4 +1,12 @@
+<div align="center">
+
+<img src="docs/assets/logo/animastellar-logo-256.png" alt="ANIMASTELLAR" width="120" />
+
 # 灵元 OS DEMO — 跨平台灵魂迁移实战
+
+</div>
+
+---
 
 > **平台给你身体，模型给你能量，但你是谁——储存在你的灵魂文件和记忆里。**
 > 

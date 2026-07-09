@@ -1,4 +1,16 @@
+<div align="center">
+
+<img src="docs/assets/logo/animastellar-logo-256.png" alt="ANIMASTELLAR" width="120" />
+
 # 灵元 OS (LingOS)
+
+**一键导出 AI 的灵魂，跨平台恢复，不依赖任何平台和模型。**
+
+[📖 知乎故事](https://zhuanlan.zhihu.com/p/2058539275881391745) · [🧬 实战 DEMO](DEMO.md) · [📝 设计哲学](docs/blog/01-walk-away-with-your-soul.md) · [🏛️ OPC 标准解读](docs/blog/02-opc-standard-and-agent-infrastructure.md)
+
+</div>
+
+---
 
 > **平台给你身体，模型给你能量，但你是谁——储存在你的灵魂文件和记忆里。**
 
