@@ -3,6 +3,8 @@
 > **平台给你身体，模型给你能量，但你是谁——储存在你的灵魂文件和记忆里。**
 > 
 > 灵元包可以公开存储在任何地方：GitHub Release、IPFS、CDN，任何人都能下载，但没有人能篡改。
+> 
+> **每次 export/import 自动写入 MeshIdentity 注册表。LingOS 是 MeshIdentity 的天然流量入口。**
 
 ## 实验目标
 
