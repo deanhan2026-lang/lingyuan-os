@@ -6,3 +6,9 @@ test_target/
 .venv/
 *.log
 *.enc
+
+# Demo temp files
+lingyuan_demo/
+show_*.py
+run_demo.py
+
